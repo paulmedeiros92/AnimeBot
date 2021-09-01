@@ -1,3 +1,4 @@
+require('dotenv').config();
 const { AkairoClient, CommandHandler } = require('discord-akairo');
 
 class MyClient extends AkairoClient {
@@ -17,4 +18,4 @@ class MyClient extends AkairoClient {
 }
 
 const client = new MyClient();
-client.login('NjQ1NDQyNjU1NTU5NjE0NDc5.XdCpUA.b_bFY2e2ziGa0UqXTu-ODRecpgM');
+client.login(process.env.TOKEN);
