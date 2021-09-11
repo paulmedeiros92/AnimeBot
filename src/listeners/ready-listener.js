@@ -1,6 +1,6 @@
 const { Listener } = require('discord-akairo');
 const { initializeApp } = require("firebase/app");
-const { getFirestore, collection, getDocs } = require('firebase/firestore/lite');
+const { getFirestore, collection, getDocs, query, where } = require('firebase/firestore/lite');
 
 
 const firebaseConfig = {
@@ -25,10 +25,16 @@ class ReadyListener extends Listener {
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        const serversCol = collection(db, 'shows');
-        getDocs(serversCol).then( servers => {
-            servers.docs.forEach(doc => console.log(doc.data()));
-            console.log("I'm ready!");
+        const serversCol = collection(db, 'servers');
+        getDocs(serversCol).then(servers => {
+            servers.docs.forEach(async (doc) => {
+                const server = doc.data();
+                console.log(`SERVER::${server.serverSnowflake}`);
+                console.log('SHOWS::');
+                const q = await query(collection(db, 'shows'), where('serverSnowflake', '==', server.serverSnowflake));
+                const serverShows = await getDocs(q);
+                serverShows.forEach(doc => console.log(doc.data()));
+            });
         });
     }
 }

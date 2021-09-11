@@ -12,7 +12,7 @@ class MyClient extends AkairoClient {
 
     this.commandHandler = new CommandHandler(this, {
       directory: './src/commands/',
-      prefix: '>_<',
+      prefix: '>>',
       defaultCooldown: 1000,
     });
 
